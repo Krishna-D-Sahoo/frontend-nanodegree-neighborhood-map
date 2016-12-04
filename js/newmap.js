@@ -1,12 +1,11 @@
 var map;
 var locations = [
         {title: 'Lingaraj Temple', location: {lat: 20.2382383, lng: 85.8315622}},
-        {title: 'Bhuvaneswar Museum', location: {lat: 20.256302, lng: 85.841267}},
-        {title: 'Dhauli Shati Stupa', location: {lat: 20.1923517, lng: 85.8372062}},
+        {title: 'Odisha State Museum', location: {lat: 20.2562, lng: 85.8415}},
+        {title: 'Dhauli', location: {lat: 20.1923517, lng: 85.8372062}},
         {title: 'Nandankanan Zoological Park', location: {lat: 20.395775, lng: 85.8237923}},
-        {title: 'Udayagiri Jain caves', location: {lat: 20.2631, lng: 85.7857}},
-        {title: 'Jai Prakash Narayan Park', location: {lat:20.268384, lng: 85.841723}},
-        {title: 'Nicco Park', location: {lat: 20.2861098, lng: 85.8281722}}
+        {title: 'Udayagiri Caves', location: {lat: 20.2631, lng: 85.7857}},
+        {title: 'Kalinga Stadium', location: {lat: 20.2879847, lng: 85.8215891}}
       ];
 var center =[{lat : 20.2961, lng : 85.8245}]
 
@@ -138,10 +137,10 @@ function initMap() {
       dataType: "jsonp",
       jsonp: "callback",
       success: function(response) {
-        var url = response[1];
+        console.log(response);
+        var url = response[3][0];
         location.url = url;
         clearTimeout(wikiError);
-        // console.log('this ' + location.url);
       }
     });
   };
@@ -227,9 +226,9 @@ function ViewModel(markers) {
       return title;
     });
   });
-//   this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-//       google.maps.event.trigger(place.marker, 'click');
-//   };
+  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
+      google.maps.event.trigger(place.marker, 'click');
+  };
 
 }
 
