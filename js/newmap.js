@@ -10,7 +10,7 @@ var locations = [
       ];
 var center =[{lat : 20.2961, lng : 85.8245}]
 
-var markers = []; // Create a new blank array for all the listing markers.
+var markers = []; // Creating a new blank array for all the listing markers.
 
 var styles = [
   {
@@ -90,11 +90,15 @@ function initMap() {
 
   var largeInfowindow = new google.maps.InfoWindow();
   var bounds = new google.maps.LatLngBounds();
+  var defaultIcon = makeMarkerIcon('0091ff'); // this is the default marker icon.
+  var highlightedIcon = makeMarkerIcon('FFFF24'); // this is the state of the marker when highlighted.
 
   // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < locations.length; i++) {
     var position = locations[i].location; // Get the position from the location array.
     var title = locations[i].title;
+    wikiLink(locations[i]);
+
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
       map: map,
@@ -110,9 +114,37 @@ function initMap() {
       populateInfoWindow(this, largeInfowindow);
     });
     bounds.extend(markers[i].position);
+    marker.addListener('mouseover', function() {
+      this.setIcon(highlightedIcon);
+    });
+
+    marker.addListener('mouseout', function() {
+      this.setIcon(defaultIcon);
+    });
   }
   // Extend the boundaries of the map for each marker
   map.fitBounds(bounds);
+
+  function wikiLink(location) {
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + title + '&format=json&callback=wikiCallback';
+
+    //If you cant get a wiki request, throw an error message.
+    var wikiError = setTimeout(function() {
+      location.url = 'Unable to find the request';
+    }, 8000);
+
+    $.ajax({
+      url: wikiUrl,
+      dataType: "jsonp",
+      jsonp: "callback",
+      success: function(response) {
+        var url = response[1];
+        location.url = url;
+        clearTimeout(wikiError);
+        // console.log('this ' + location.url);
+      }
+    });
+  };
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -130,7 +162,7 @@ function populateInfoWindow(marker, infowindow) {
     });
 
     var streetViewService = new google.maps.StreetViewService();
-    var radius = 50;
+    var radius = 500;
 
     // In case the status is OK, which means the pano was found, compute the
     // position of the streetview image, then calculate the heading, then get a
@@ -140,7 +172,7 @@ function populateInfoWindow(marker, infowindow) {
         var nearStreetViewLocation = data.location.latLng;
         var heading = google.maps.geometry.spherical.computeHeading(
           nearStreetViewLocation, marker.position);
-          infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+          infowindow.setContent('<div>' + marker.title + '</div><hr><div id="pano"></div><div><a href=' + location.url + '> Click here for more info </a></div>');
           var panoramaOptions = {
             position: nearStreetViewLocation,
             pov: {
@@ -167,11 +199,31 @@ function populateInfoWindow(marker, infowindow) {
   // icon of that color. The icon will be 21 px wide by 34 high, have an origin
   // of 0, 0 and be anchored at 10, 34).
   function makeMarkerIcon(markerColor) {
-    var markerImage = new google.maps.MarkerImage('http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
+        var markerImage = new google.maps.MarkerImage(
+          'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
           '|40|_|%E2%80%A2',
           new google.maps.Size(21, 34),
           new google.maps.Point(0, 0),
           new google.maps.Point(10, 34),
           new google.maps.Size(21,34));
         return markerImage;
-  }
+      }
+
+function ViewModel(markers) {
+  this.selected = ko.observable(''); // this is for the search box, takes value in it and searches for it in the array
+  this.places = ko.observableArray(locations); // we have made the array of locations into a ko.observableArray
+  this.filterPlaces = ko.computed(function() {
+    var selected = this.selected().toLowerCase();
+    if(!selected) {
+      for (var i = 0; i < locations.length; i++) {
+        markers[i].setVisible;
+      }
+      return this.places();
+    }
+    return this.places().selected(function(place) {
+      var title = place.title.toLowerCase().indexOf(selected) > -1;
+      place.marker.setVisible(title);
+      return title;
+    });
+  });
+}
