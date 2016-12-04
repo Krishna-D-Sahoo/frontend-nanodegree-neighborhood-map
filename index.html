@@ -8,8 +8,8 @@
         <section class="main">
           <form class="search" method="post" action="index.html" >
             <input type="text" data-bind="textInput: selected" placeholder="Click here/Type the name of the place">
-            <ul data-bind="forEach: filteredPlaces">
-              <li><span data-bind="text: title, click: $root.openWindow"></span></li>
+            <ul data-bind="forEach: filterPlaces">
+              <li><span data-bind="text: title, click: $root.showInfoWindow"></span></li>
             </ul>
       	 </form>
         </section></div>
