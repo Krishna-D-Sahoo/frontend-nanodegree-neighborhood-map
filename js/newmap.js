@@ -145,7 +145,6 @@ function initMap() {
       }
     });
   };
-  ko.applyBindings(new ViewModel());
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -233,3 +232,5 @@ function ViewModel(markers) {
   };
 
 }
+
+ko.applyBindings(new ViewModel());
