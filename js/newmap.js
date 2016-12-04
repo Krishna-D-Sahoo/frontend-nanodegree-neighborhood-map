@@ -227,7 +227,7 @@ function ViewModel(markers) {
       return title;
     });
   });
-  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the marker is clicked
+  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
       google.maps.event.trigger(place.marker, 'click');
   };
 
