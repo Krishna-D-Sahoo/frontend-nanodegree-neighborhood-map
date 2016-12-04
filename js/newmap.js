@@ -145,6 +145,7 @@ function initMap() {
       }
     });
   };
+  ko.applyBindings(new ViewModel());
 }
 
 // This function populates the infowindow when the marker is clicked. We'll only allow
@@ -212,18 +213,23 @@ function populateInfoWindow(marker, infowindow) {
 function ViewModel(markers) {
   this.selected = ko.observable(''); // this is for the search box, takes value in it and searches for it in the array
   this.places = ko.observableArray(locations); // we have made the array of locations into a ko.observableArray
+  // attributed to - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html , searching through array
   this.filterPlaces = ko.computed(function() {
     var selected = this.selected().toLowerCase();
-    if(!selected) {
+    if(!selected) { // if there is no match, the complete list is shown
       for (var i = 0; i < locations.length; i++) {
-        markers[i].setVisible;
+        locations[i].title.setVisible;
       }
       return this.places();
-    }
+    } // if ends
     return this.places().selected(function(place) {
       var title = place.title.toLowerCase().indexOf(selected) > -1;
       place.marker.setVisible(title);
       return title;
     });
   });
+  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the marker is clicked
+      google.maps.event.trigger(place.marker, 'click');
+  };
+
 }
