@@ -95,7 +95,7 @@ function initMap() {
   for (var i = 0; i < locations.length; i++) {
     var position = locations[i].location; // Get the position from the location array.
     var title = locations[i].title;
-    // var locationUrl = wikiLink(locations[i]);
+    // var locationUrl = wikiLink(locations[i]);        // this is where i was trying to get the related wiki URL
     // console.log(locationUrl);
     wikiLink(locations[i]);
 
@@ -148,7 +148,7 @@ function initMap() {
         clearTimeout(wikiError);
       }
     });
-
+    // return location.url     // this is where I thought of returning the URl, but thats a bad idea!!! Not working 
   };
 }
 
