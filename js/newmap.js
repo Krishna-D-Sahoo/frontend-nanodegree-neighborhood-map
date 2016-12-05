@@ -79,7 +79,7 @@ var styles = [
 ];
 
 function initMap() {
-  // Constructor creates a new map - only center and zoom are required.
+  // Constructor creates a new map
   map = new google.maps.Map(document.getElementById('map'), {
     center: center[0],
     zoom: 13,
@@ -92,10 +92,11 @@ function initMap() {
   var defaultIcon = makeMarkerIcon('0091ff'); // this is the default marker icon.
   var highlightedIcon = makeMarkerIcon('FFFF24'); // this is the state of the marker when highlighted.
 
-  // The following group uses the location array to create an array of markers on initialize.
   for (var i = 0; i < locations.length; i++) {
     var position = locations[i].location; // Get the position from the location array.
     var title = locations[i].title;
+    // var locationUrl = wikiLink(locations[i]);
+    // console.log(locationUrl);
     wikiLink(locations[i]);
 
     // Create a marker per location, and put into markers array.
@@ -104,7 +105,8 @@ function initMap() {
       position: position,
       title: title,
       animation: google.maps.Animation.DROP,
-      id: i
+      id: i,
+      // url: locationUrl
     });
 
     markers.push(marker); // Push the marker to our array of markers.
@@ -125,6 +127,7 @@ function initMap() {
   map.fitBounds(bounds);
 
   function wikiLink(location) {
+    location.url = '';
     var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + title + '&format=json&callback=wikiCallback';
 
     //If you cant get a wiki request, throw an error message.
@@ -139,10 +142,13 @@ function initMap() {
       success: function(response) {
         console.log(response);
         var url = response[3][0];
+        console.log(url);
         location.url = url;
+        console.log(location.url);
         clearTimeout(wikiError);
       }
     });
+
   };
 }
 
@@ -171,6 +177,7 @@ function populateInfoWindow(marker, infowindow) {
         var nearStreetViewLocation = data.location.latLng;
         var heading = google.maps.geometry.spherical.computeHeading(
           nearStreetViewLocation, marker.position);
+          console.log(marker.position);
           infowindow.setContent('<div>' + marker.title + '</div><hr><div id="pano"></div><div><a href=' + location.url + '> Click here for more info </a></div>');
           var panoramaOptions = {
             position: nearStreetViewLocation,
@@ -208,28 +215,36 @@ function populateInfoWindow(marker, infowindow) {
         return markerImage;
       }
 
-function ViewModel(markers) {
-  this.selected = ko.observable(''); // this is for the search box, takes value in it and searches for it in the array
-  this.places = ko.observableArray(locations); // we have made the array of locations into a ko.observableArray
-  // attributed to - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html , searching through array
-  this.filterPlaces = ko.computed(function() {
-    var selected = this.selected().toLowerCase();
-    if(!selected) { // if there is no match, the complete list is shown
-      for (var i = 0; i < locations.length; i++) {
-        locations[i].title.setVisible;
-      }
-      return this.places();
-    } // if ends
-    return this.places().selected(function(place) {
-      var title = place.title.toLowerCase().indexOf(selected) > -1;
-      place.marker.setVisible(title);
-      return title;
-    });
+function viewModel(markers) {
+  var self = this;
+  self.filter = ko.observable(''); // this is for the search box, takes value in it and searches for it in the array
+  self.items = ko.observableArray(locations); // we have made the array of locations into a ko.observableArray
+  // attributed to - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html , filtering through array
+  self.filteredItems = ko.computed(function() {
+    var filter = self.filter().toLowerCase();
+    if (!filter) {
+      return self.items();
+    } else {
+      return ko.utils.arrayFilter(self.items(), function(id) {
+        return stringStartsWith(id.title.toLowerCase(), filter);
+      });
+    }
+
   });
-  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-      google.maps.event.trigger(place.marker, 'click');
-  };
+
+  var stringStartsWith = function (string, startsWith) {
+       string = string || "";
+       if (startsWith.length > string.length)
+           return false;
+       return string.substring(0, startsWith.length) === startsWith;
+   };
+  // populateInfoWindow(self.filteredItems,)
+
+
+  // this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
+  //     google.maps.event.trigger(place.marker, 'click');
+  // };
 
 }
 
-ko.applyBindings(new ViewModel());
+ko.applyBindings(new viewModel());
