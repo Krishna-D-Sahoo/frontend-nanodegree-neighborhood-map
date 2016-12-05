@@ -11,14 +11,14 @@
         <section class="main">
           <form class="search" method="post" action="index.html" >
             <input type="text" data-bind="textInput: filter" placeholder="Click here/Type the name of the place">
-            <ul data-bind="with: filteredItems">
+            <ul style="list-style-type: none;" data-bind="foreach: filteredItems">
               <li><span data-bind="text: title, click: $parent.showInfoWindow"></span></li>
             </ul>
       	 </form>
-        </section></div>
+        </section>
 
         <div id="map"></div>
-
+</div>
 
     <script src="js/knockout-3.4.1.js"></script>
     <script src="js/newmap.js"></script>
