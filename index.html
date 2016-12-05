@@ -1,24 +1,28 @@
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Map of my favourite city - Bhubaneswar</title>
     <link href="css/styles.css" rel="stylesheet">
+    <script src="js/jquery-3.1.1.min.js"></script>
   </head>
   <body>
       <div><h1>Famous places in Bhubaneswar</h1>
         <section class="main">
           <form class="search" method="post" action="index.html" >
-            <input type="text" data-bind="textInput: selected" placeholder="Click here/Type the name of the place">
-            <ul data-bind="forEach: filterPlaces">
-              <li><span data-bind="text: title, click: $root.showInfoWindow"></span></li>
+            <input type="text" data-bind="textInput: filter" placeholder="Click here/Type the name of the place">
+            <ul data-bind="with: filteredItems">
+              <li><span data-bind="text: title, click: $parent.showInfoWindow"></span></li>
             </ul>
       	 </form>
         </section></div>
 
         <div id="map"></div>
 
+
     <script src="js/knockout-3.4.1.js"></script>
     <script src="js/newmap.js"></script>
     <script src="js/api_config.js"></script>
-    <script src="js/jquery-3.1.1.min.js"></script>
+
   </body>
 </html>
