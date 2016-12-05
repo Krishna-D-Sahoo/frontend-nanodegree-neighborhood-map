@@ -1,26 +1,17 @@
-/*html,
-    body {
-      font-family: Arial, sans-serif;
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
 
-    #map {
-      height: 100%;
-    }*/
 html,
       body {
         font-family: Arial, sans-serif;
         height: 100%;
         margin: 0;
         padding: 0;
+        line-height: 20px;
       }
 
-      /*.container {
+      .container {
         height: 100%;
         position: relative;
-      }*/
+      }
 
       input {
         font-size: 12px;
@@ -44,6 +35,7 @@ html,
       #map {
         /*bottom:0px;*/
         height: 100%;
+        /*z-index: -1;*/
         /*left: 362px;*/
         /*position: absolute;*/
         /*right: 0px;*/
@@ -82,6 +74,10 @@ body {
     line-height: 20px;
 }*/
 
+ul {
+  list-style-type: none;
+}
+
 a {
     color: #1e7ad3;
     text-decoration: none;
@@ -97,6 +93,7 @@ a:hover { text-decoration: underline }
 }
 
 .main {
+  /*z-index: +1;*/
   margin-top: 10px;
   height: 30px;
   margin-right: 380px;
@@ -114,7 +111,7 @@ input {
 .search {
     position: relative;
     margin: 0 auto;
-    width: 200px;
+    width: 260px;
 }
 
 .search input {
