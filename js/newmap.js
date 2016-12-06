@@ -236,7 +236,7 @@ function viewModel(markers) {
    };
   // populateInfoWindow(self.filteredItems,)
 
-  // this.listInfoWindow = new google.maps.InfoWindow();
+  // this.listInfoWindow = new google.maps.InfoWindow();        // this is where i was making an effort to add listeners
   // for (var i = 0; i < markers.length; i++) {
   //   var marker = markers[i];
   //   this.showInfoWindow = function(marker) {
