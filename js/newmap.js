@@ -108,7 +108,7 @@ function initMap() {
       id: i,
       // url: locationUrl
     });
-
+    locations[i].marker = marker;
     markers.push(marker); // Push the marker to our array of markers.
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
@@ -234,23 +234,11 @@ function viewModel(markers) {
            return false;
        return string.substring(0, startsWith.length) === startsWith;
    };
-  // populateInfoWindow(self.filteredItems,)
 
-  // this.listInfoWindow = new google.maps.InfoWindow();        // this is where i was making an effort to add listeners
-  // for (var i = 0; i < markers.length; i++) {
-  //   var marker = markers[i];
-  //   this.showInfoWindow = function(marker) {
-  //     marker.addListener('click', function() {
-  //       populateInfoWindow(this, largeInfowindow);
-  //     });
-  //   }
-  //
-  // }
-
-  // this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-  //       console.log(place.marker);
-  //      google.maps.event.trigger(place.marker, 'click');
-  // };
+  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
+        // console.log(place.marker);
+       google.maps.event.trigger(place.marker, 'click');
+  };
 
 }
 
