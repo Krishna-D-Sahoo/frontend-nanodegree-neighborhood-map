@@ -157,8 +157,7 @@ function initMap() {
 function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
-    // Clear the infowindow content to give the streetview time to load.
-    infowindow.setContent('');
+    infowindow.setContent(''); // Clear the infowindow content to give the streetview time to load.
     infowindow.marker = marker;
     // Make sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
@@ -191,18 +190,15 @@ function populateInfoWindow(marker, infowindow) {
             infowindow.setContent('<div>' + marker.title + '</div><hr>' + '<div>No Street View Found</div>');
           }
         }
-        // Use streetview service to get the closest streetview image within
-        // 50 meters of the markers position
+        // Use streetview service to get the closest streetview image within 50 meters of the markers position
         streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-        // Open the infowindow on the correct marker.
-        infowindow.open(map, marker);
+        infowindow.open(map, marker); // Open the infowindow on the correct marker.
       }
   }
 
 
-  // This function takes in a COLOR, and then creates a new marker
-  // icon of that color. The icon will be 21 px wide by 34 high, have an origin
-  // of 0, 0 and be anchored at 10, 34).
+  // This function takes in a COLOR, and then creates a new marker icon of that color.
+  // The icon will be 21 px wide by 34 high, have an origin of 0, 0 and be anchored at 10, 34).
   function makeMarkerIcon(markerColor) {
         var markerImage = new google.maps.MarkerImage(
           'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|'+ markerColor +
@@ -240,11 +236,21 @@ function viewModel(markers) {
    };
   // populateInfoWindow(self.filteredItems,)
 
+  // this.listInfoWindow = new google.maps.InfoWindow();
+  // for (var i = 0; i < markers.length; i++) {
+  //   var marker = markers[i];
+  //   this.showInfoWindow = function(marker) {
+  //     marker.addListener('click', function() {
+  //       populateInfoWindow(this, largeInfowindow);
+  //     });
+  //   }
+  //
+  // }
 
-  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-        console.log(place.marker);
-       google.maps.event.trigger(place.marker, 'click');
-  };
+  // this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
+  //       console.log(place.marker);
+  //      google.maps.event.trigger(place.marker, 'click');
+  // };
 
 }
 
