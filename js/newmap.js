@@ -97,7 +97,7 @@ function initMap() {
     var title = locations[i].title;
     // var locationUrl = wikiLink(locations[i]);
     // console.log(locationUrl);
-    wikiLink(locations[i]);
+    // wikiLink(locations[i]);
 
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
@@ -109,6 +109,8 @@ function initMap() {
       // url: locationUrl
     });
     locations[i].marker = marker;
+    wikiLink(locations[i]);
+
     markers.push(marker); // Push the marker to our array of markers.
     // Create an onclick event to open an infowindow at each marker.
     marker.addListener('click', function() {
@@ -143,7 +145,7 @@ function initMap() {
         console.log(response);
         var url = response[3][0];
         console.log(url);
-        location.url = url;
+        location.marker.wikiurl = url;
         console.log(location.url);
         clearTimeout(wikiError);
       }
@@ -176,7 +178,7 @@ function populateInfoWindow(marker, infowindow) {
         var heading = google.maps.geometry.spherical.computeHeading(
           nearStreetViewLocation, marker.position);
           console.log(marker.position);
-          infowindow.setContent('<div>' + marker.title + '</div><hr><div id="pano"></div><div><a href=' + location.url + '> Click here for more info </a></div>');
+          infowindow.setContent('<div>' + marker.title + '</div><hr><div id="pano"></div><div><a href=' + marker.wikiurl + '> Click here for more info </a></div>');
           var panoramaOptions = {
             position: nearStreetViewLocation,
             pov: {
@@ -236,7 +238,7 @@ function viewModel(markers) {
    };
 
   this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-        // console.log(place.marker);
+        console.log(place.marker);
        google.maps.event.trigger(place.marker, 'click');
   };
 
