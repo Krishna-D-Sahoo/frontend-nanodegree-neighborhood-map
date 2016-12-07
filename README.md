@@ -32,9 +32,10 @@ On clicking on a place in the list, activates the info window on the marker of t
 I am very grateful to the mentors who guide the students in the Udacity forum. The discussions and the q/a sessions are a great help.
 
 ### resourses used - 
-----
-For the sidebar menu - http://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav
+---
+For the layout and other features in the map (like getting street view, markers, etc.), check this repo in github - https://github.com/udacity/ud864
+---
+For the side bar menu - http://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav
 ---
 Functionality behind search using knockout - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html
 ---
-For the layout and other features in the map (like getting street view, markers, etc.), check this repo in github - https://github.com/udacity/ud864
