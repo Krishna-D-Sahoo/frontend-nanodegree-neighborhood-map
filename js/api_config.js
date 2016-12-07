@@ -1,7 +1,7 @@
 var map;
 
 var loadScript = function (){
-  var myAPIKey = "AIzaSyDGLPKGCl-Tcpxbg95ExpfSI8saQxPWZqI"
+  var myAPIKey = "XXX"
   var JSLink = "https://maps.googleapis.com/maps/api/js?key=" +
       myAPIKey + "&callback=initMap";
 
