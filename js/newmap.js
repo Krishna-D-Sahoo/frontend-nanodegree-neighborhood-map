@@ -95,9 +95,6 @@ function initMap() {
   for (var i = 0; i < locations.length; i++) {
     var position = locations[i].location; // Get the position from the location array.
     var title = locations[i].title;
-    // var locationUrl = wikiLink(locations[i]);
-    // console.log(locationUrl);
-    // wikiLink(locations[i]);
 
     // Create a marker per location, and put into markers array.
     var marker = new google.maps.Marker({
@@ -106,9 +103,8 @@ function initMap() {
       title: title,
       animation: google.maps.Animation.DROP,
       id: i,
-      // url: locationUrl
     });
-    locations[i].marker = marker;
+    locations[i].marker = marker; // we made marker a property of the locations and stored info of each marker
     wikiLink(locations[i]);
 
     markers.push(marker); // Push the marker to our array of markers.
@@ -153,15 +149,16 @@ function initMap() {
   };
 }
 
+
 // This function populates the infowindow when the marker is clicked. We'll only allow
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, infowindow) {
   // Check to make sure the infowindow is not already opened on this marker.
   if (infowindow.marker != marker) {
-    infowindow.setContent(''); // Clear the infowindow content to give the streetview time to load.
+    infowindow.setContent(''); // Clearing the infowindow content to give the streetview time to load.
     infowindow.marker = marker;
-    // Make sure the marker property is cleared if the infowindow is closed.
+    // Making sure the marker property is cleared if the infowindow is closed.
     infowindow.addListener('closeclick', function() {
       infowindow.marker = null;
     });
@@ -169,15 +166,13 @@ function populateInfoWindow(marker, infowindow) {
     var streetViewService = new google.maps.StreetViewService();
     var radius = 500;
 
-    // In case the status is OK, which means the pano was found, compute the
-    // position of the streetview image, then calculate the heading, then get a
+    // In case the status is OK, which means the pano was found, computing the position of the streetview image, then calculate the heading, then get a
     // panorama from that and set the options
     function getStreetView(data, status) {
       if (status == google.maps.StreetViewStatus.OK) {
         var nearStreetViewLocation = data.location.latLng;
         var heading = google.maps.geometry.spherical.computeHeading(
           nearStreetViewLocation, marker.position);
-          console.log(marker.position);
           infowindow.setContent('<div>' + marker.title + '</div><hr><div id="pano"></div><div><a href=' + marker.wikiurl + '> Click here for more info </a></div>');
           var panoramaOptions = {
             position: nearStreetViewLocation,
@@ -223,7 +218,6 @@ function viewModel(markers) {
       return self.items();
     } else {
       return ko.utils.arrayFilter(self.items(), function(id) {
-        console.log(id.title);
         return stringStartsWith(id.title.toLowerCase(), filter);
       });
     }
@@ -237,8 +231,8 @@ function viewModel(markers) {
        return string.substring(0, startsWith.length) === startsWith;
    };
 
-  this.showInfoWindow = function(place) { // this should show the infowindow if any place on the list is clicked
-        console.log(place.marker);
+  // this should show the infowindow if any place on the list is clicked
+  this.showInfoWindow = function(place) {
        google.maps.event.trigger(place.marker, 'click');
   };
 
