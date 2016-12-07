@@ -1,28 +1,38 @@
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Map of my favourite city - Bhubaneswar</title>
-    <link href="css/styles.css" rel="stylesheet">
-    <script src="js/jquery-3.1.1.min.js"></script>
-  </head>
-  <body>
-      <div><h1>Famous places in Bhubaneswar</h1>
-        <section class="main">
-          <form class="search" method="post" action="index.html" >
-            <input type="text" data-bind="textInput: filter" placeholder="Click here/Type the name of the place">
-            <ul style="list-style-type: none;" data-bind="foreach: filteredItems">
-              <li><span data-bind="text: title, click: $parent.showInfoWindow"></span></li>
-            </ul>
-      	 </form>
-        </section>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Map of my favourite city - Bhubaneswar</title>
+  <link href="css/map_styles.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/knockout-3.4.1.js"></script>
+</head>
+<body>
+  <div id="mySidenav" class="sidenav">
+    <span class="menu-title">List of places</span>
+      <input type="text" data-bind="textInput: filter" placeholder="Search from the list">
+      <ul class="" style="list-style-type: none;" data-bind="foreach: filteredItems">
+        <a href="#"><span data-bind="text: title, click: $parent.showInfoWindow"></span></a>
+      </ul>
+   <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  </div>
 
-        <div id="map"></div>
-</div>
+  <div id="main">
+    <h2>Famous places in Bhubaneswar</h2>
+    <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776; Click here</span>
+  </div>
+  <div id="map"></div>
+  <script src="js/newmap.js"></script>
+  <script src="js/api_config.js"></script>
+  <script>
+  function openNav() {
+    document.getElementById("mySidenav").style.width = "250px";
+  }
 
-    <script src="js/knockout-3.4.1.js"></script>
-    <script src="js/newmap.js"></script>
-    <script src="js/api_config.js"></script>
-
-  </body>
+  function closeNav() {
+    document.getElementById("mySidenav").style.width = "0";
+  }
+  </script>
+</body>
 </html>
