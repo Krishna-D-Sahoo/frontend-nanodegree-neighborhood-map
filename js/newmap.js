@@ -211,7 +211,7 @@ function viewModel(markers) {
   var self = this;
   self.filter = ko.observable(''); // this is for the search box, takes value in it and searches for it in the array
   self.items = ko.observableArray(locations); // we have made the array of locations into a ko.observableArray
-  // attributed to - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html , filtering through array
+  // attributed to - http://www.knockmeout.net/2011/04/utility-functions-in-knockoutjs.html , searching the array
   self.filteredItems = ko.computed(function() {
     var filter = self.filter().toLowerCase();
     if (!filter) {
